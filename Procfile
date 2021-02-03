@@ -1,1 +1,1 @@
-web: gunicorn Ecommmerce.Ecommmerce.wsgi --log-file - --log-level debug
+web: gunicorn Ecommmerce.wsgi --log-file - --log-level debug
