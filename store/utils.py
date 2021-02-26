@@ -42,9 +42,13 @@ def cartData(request):
 		cart_items = order.get_cart_items_number
 	else:
 		cookieData = cookieCart(request)
-		cart_items = cookieData['cartItems']
-		order = cookieData['order']
-		items = cookieData['items']
+		if cookieData is not None:
+			cart_items = cookieData['cartItems']
+			order = cookieData['order']
+			items = cookieData['items']
+		else:
+			return {}
+
 
 	return {'cart_items':cart_items, 'order':order, 'items':items}	
 

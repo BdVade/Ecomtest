@@ -75,11 +75,14 @@ def get_product_details(request, slug):
 def cart(request):
 	if request.method == "GET":
 		cartdata = cartData(request)
-		data = {
-			'items':cartdata['items'],
-			'order':cartdata['order'],
-			'cart_items':cartdata['cart_items'],
-		}
+		if cartdata == {}:
+			data = {}
+		else:
+			data = {
+				'items':cartdata['items'],
+				'order':cartdata['order'],
+				'cart_items':cartdata['cart_items'],
+			}
 		return Response(data=data)	
 
 
