@@ -80,7 +80,7 @@ def cart(request):
 		else:
 			data = {
 				'items':cartdata['items'],
-				'order':cartdata['order'],
+# 				
 				'cart_items':cartdata['cart_items'],
 			}
 		return Response(data=data)	
