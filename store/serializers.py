@@ -22,3 +22,9 @@ class ShippingSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Shipping
 		fields = ['order', 'address', 'city', 'state', 'zipcode']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Order
+		fields = '__all__'

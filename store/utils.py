@@ -1,5 +1,6 @@
 import json
 from .models import *
+from .serializers import OrderSerializer,ProductSerializer
 
 def cookieCart(request):
 	try:
@@ -13,17 +14,13 @@ def cookieCart(request):
 		try:
 			cart_items += anon_cart[i]['quantity']
 			product = Product.objects.get(id=i)
+			serialized_product = ProductSerializer(product)
 			total = (product.product_price * anon_cart[i]['quantity'])		
 			order['get_cart_total'] += total
 			order['get_cart_items'] += cart_items
 
 			item = {
-				'product': {
-					'id': product.id,
-					'product_name': product.product_name,
-					'product_price': product.product_price,
-					'imageURL': product.imageURL,
-				},
+				'product': serialized_product.data,
 				'quantity': anon_cart[i]['quantity'],
 				'get_total': total,
 			}
@@ -38,8 +35,10 @@ def cartData(request):
 	if request.user.is_authenticated:
 		profile = request.user.profile
 		order, created = Order.objects.get_or_create(profile=profile, order_status='pending')
+		serialized_order = OrderSerializer(order)
 		items = order.orderitem_set.all()
 		cart_items = order.get_cart_items_number
+		order = serialized_order
 	else:
 		cookieData = cookieCart(request)
 		if cookieData is not None:
@@ -50,7 +49,7 @@ def cartData(request):
 			return {}
 
 
-	return {'cart_items':cart_items, 'order':order, 'items':items}	
+	return {'cart_items':cart_items, 'order': order.data, 'items':items}
 
 
 def guestOrder(request, data):
@@ -64,8 +63,8 @@ def guestOrder(request, data):
 
     cookieData = cookieCart(request)
     items = cookieData['items']
-    profle, created = Profile.objects.get_or_create(email=email)
-    profile.first_name = name
+    profile, created = Profile.objects.get_or_create(email=email)
+    profile.first_name = first_name
     profile.save()
     order = Order.objects.create(profile=profile, order_status='pending')
     for item in items:
