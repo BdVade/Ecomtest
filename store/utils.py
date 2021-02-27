@@ -37,7 +37,7 @@ def cartData(request):
 		order, created = Order.objects.get_or_create(profile=profile, order_status='pending')
 		serialized_order = OrderSerializer(order)
 		items = order.orderitem_set.all()
-		cart_items = order.get_cart_items_number
+		cart_items = order.cart_items_number
 		order = serialized_order.data
 		return {'order': order,}
 	else:
