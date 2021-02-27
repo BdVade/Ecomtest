@@ -38,18 +38,20 @@ def cartData(request):
 		serialized_order = OrderSerializer(order)
 		items = order.orderitem_set.all()
 		cart_items = order.get_cart_items_number
-		order = serialized_order
+		order = serialized_order.data
+		return {'order': order,}
 	else:
 		cookieData = cookieCart(request)
 		if cookieData is not None:
 			cart_items = cookieData['cartItems']
 			order = cookieData['order']
 			items = cookieData['items']
+			return {'cart_items': cart_items, 'order': order, 'items': items}
 		else:
 			return {}
 
 
-	return {'cart_items':cart_items, 'order': order.data, 'items':items}
+
 
 
 def guestOrder(request, data):

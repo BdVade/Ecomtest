@@ -25,6 +25,8 @@ class ShippingSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+	cart_items_number = serializers.ReadOnlyField()
+	order_items = serializers.ReadOnlyField()
 	class Meta:
 		model = Order
-		fields = '__all__'
+		fields = ['profile','date_ordered','order_status','transaction_id','order_items','cart_items_number']

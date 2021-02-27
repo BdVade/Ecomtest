@@ -76,7 +76,12 @@ class Order(models.Model):
 		total = sum([item.get_total for item in order_items])
 		return total
 
-	def get_cart_items_number(self):
+	@property
+	def order_items(self):
+		order_items = self.orderitem_set.all()
+		return order_items
+
+	def cart_items_number(self):
 		order_items = self.orderitem_set.all()
 		total = sum([item.quantity for item in order_items])	
 		return total
@@ -84,7 +89,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True)
-	order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True)
+	order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, related_name = 'order_items')
 	quantity = models.IntegerField(default=1)
 	date_added = models.DateTimeField(auto_now_add=True)
 

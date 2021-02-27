@@ -80,15 +80,15 @@ def get_product_details(request, slug):
 @api_view(['GET'])
 def cart(request):
     cartdata = cartData(request)
-    if cartdata == {}:
-        data = {}
-    else:
-        data = {
-            'items': cartdata['items'],
-            'order': cartdata['order'],
-            'cart_items': cartdata['cart_items'],
-        }
-    return Response(data=data)
+    # if cartdata == {}:
+    #     data = {}
+    # else:
+    #     data = {
+    #         'items': cartdata['items'],
+    #         'order': cartdata['order'],
+    #         'cart_items': cartdata['cart_items'],
+    #     }
+    return Response(cartdata)
 
 
 @api_view(['POST'])
