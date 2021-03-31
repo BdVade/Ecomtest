@@ -29,7 +29,7 @@ class Product(models.Model):
 	product_rating = models.DecimalField(default=0, max_digits=3, decimal_places=1)
 	product_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 	date_posted = models.DateTimeField(auto_now_add=True)
-
+	
 	def __str__(self):
 		return self.product_name
 
